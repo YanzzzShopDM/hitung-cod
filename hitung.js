@@ -1,0 +1,51 @@
+document.getElementById('calculate').addEventListener('click', function() {
+  const denominations = [
+    { value: 100000, label: '100,000' },
+    { value: 50000, label: '50,000' },
+    { value: 20000, label: '20,000' },
+    { value: 10000, label: '10,000' },
+    { value: 5000, label: '5,000' },
+    { value: 2000, label: '2,000' },
+    { value: 1000, label: '1,000' },
+    { value: 500, label: '500' }
+  ];
+  let total = 0;
+
+  let resultHTML = '';
+
+  for (let denomination of denominations) {
+    const inputId = `input-${denomination.value}`;
+    const count = parseInt(document.getElementById(inputId).value);
+    total += denomination.value * count;
+    resultHTML += `${denomination.label} ada ${count} lembar<br>`;
+  }
+
+  const transferredAmount = parseInt(document.getElementById('input-transferred').value);
+  total += transferredAmount; // Tambahkan jumlah yang ditransfer ke total
+  
+  const dfodAmount = parseInt(document.getElementById('input-dfod').value);
+  total += dfodAmount; // Tambahkan jumlah DFOD ke total
+
+  const targetAmount = parseInt(document.getElementById('target').value);
+  const difference = total - targetAmount;
+
+  let remainingHTML = '';
+  if (difference > 0) {
+    remainingHTML = `LEBIH: ${difference.toLocaleString()}`;
+  } else if (difference < 0) {
+    remainingHTML = `KURANG: ${Math.abs(difference).toLocaleString()}`;
+  } else {
+    remainingHTML = "Terkonsep!";
+  }
+
+  document.getElementById('output').innerHTML = resultHTML;
+  document.getElementById('transferred').innerHTML = `Transfer: ${transferredAmount.toLocaleString()}`;
+  document.getElementById('dfod').innerHTML = `DFOD: ${dfodAmount.toLocaleString()}`;
+  document.getElementById('total').innerHTML = `Total: ${total.toLocaleString()}`;
+  document.getElementById('remaining').innerHTML = remainingHTML;
+  document.getElementById('results').style.display = 'flex';
+});
+
+document.getElementById('closePopup').addEventListener('click', function() {
+  document.getElementById('results').style.display = 'none';
+});
