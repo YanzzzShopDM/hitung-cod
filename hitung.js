@@ -15,18 +15,20 @@ document.getElementById('calculate').addEventListener('click', function() {
 
   for (let denomination of denominations) {
     const inputId = `input-${denomination.value}`;
-    const count = parseInt(document.getElementById(inputId).value);
+    const count = parseInt(document.getElementById(inputId).value) || 0; // Menggunakan 0 jika input kosong
     total += denomination.value * count;
     resultHTML += `${denomination.label} ada ${count} lembar<br>`;
   }
 
-  const transferredAmount = parseInt(document.getElementById('input-transferred').value);
+  const transferredAmount = parseInt(document.getElementById('input-transferred').value) || 0; // Menggunakan 0 jika input kosong
   total += transferredAmount; // Tambahkan jumlah yang ditransfer ke total
-  
-  const dfodAmount = parseInt(document.getElementById('input-dfod').value);
-  total += dfodAmount; // Tambahkan jumlah DFOD ke total
 
-  const targetAmount = parseInt(document.getElementById('target').value);
+  const dfodAmount = parseInt(document.getElementById('input-dfod').value) || 0; // Menggunakan 0 jika input kosong
+
+  // Tambahan: Tambahkan jumlah DFOD ke target
+  let targetAmount = parseInt(document.getElementById('target').value) || 0; // Menggunakan 0 jika input kosong
+  targetAmount += dfodAmount; // Tambahkan jumlah DFOD ke target
+  
   const difference = total - targetAmount;
 
   let remainingHTML = '';
